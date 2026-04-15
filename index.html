@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Современные образовательные технологии во всемирной истории</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Spectral:ital,wght@0,300;0,400;0,600;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1208;
+    --parchment: #f5efe0;
+    --gold: #c9953a;
+    --gold-light: #e8c97a;
+    --rust: #8b3a1a;
+    --deep: #2c1a08;
+    --mid: #5c3d1e;
+    --muted: #8a7560;
+    --cream: #faf6ed;
+    --border: rgba(201,149,58,0.3);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Spectral', Georgia, serif;
+    font-weight: 300;
+    line-height: 1.8;
+    overflow-x: hidden;
+  }
+
+  /* Texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.6;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(26,18,8,0.96);
+    border-bottom: 1px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4vw;
+    height: 56px;
+    backdrop-filter: blur(8px);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    color: var(--gold-light);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold-light); }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    background: var(--deep);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 6vw 80px;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(201,149,58,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,149,58,0.06) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,149,58,0.15) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.6rem, 6vw, 5.5rem);
+    font-weight: 900;
+    color: var(--parchment);
+    line-height: 1.1;
+    text-align: center;
+    max-width: 900px;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.4s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .hero-sub {
+    margin-top: 2rem;
+    font-size: 1.1rem;
+    color: var(--muted);
+    text-align: center;
+    max-width: 620px;
+    line-height: 1.7;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.6s forwards;
+  }
+
+  .hero-divider {
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 2.5rem auto 0;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.8s forwards;
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: fadeIn 1s 1.4s forwards;
+  }
+  .hero-scroll span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s infinite;
+  }
+
+  /* ─── SECTION BASE ─── */
+  section { padding: 6rem 6vw; }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.9rem, 3.5vw, 3rem);
+    font-weight: 700;
+    color: var(--deep);
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--rust);
+  }
+
+  .section-lead {
+    font-size: 1.05rem;
+    color: var(--mid);
+    max-width: 620px;
+    line-height: 1.85;
+    margin-bottom: 3rem;
+  }
+
+  hr.ornament {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    max-width: 200px;
+    margin: 0 0 3rem;
+  }
+
+  /* ─── INTRO ─── */
+  #intro {
+    background: var(--cream);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6vw;
+    align-items: start;
+  }
+
+  .intro-quote {
+    border-left: 3px solid var(--gold);
+    padding: 1.5rem 2rem;
+    background: rgba(201,149,58,0.06);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--mid);
+    line-height: 1.9;
+    margin-top: 2rem;
+  }
+
+  .intro-quote cite {
+    display: block;
+    margin-top: 1rem;
+    font-style: normal;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+  }
+
+  .stat-row {
+    display: flex;
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .stat-card {
+    flex: 1;
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    background: white;
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .stat-desc {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-top: 0.5rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* ─── TECHNOLOGIES GRID ─── */
+  #technologies {
+    background: var(--deep);
+    color: var(--parchment);
+  }
+
+  #technologies .section-title { color: var(--parchment); }
+  #technologies .section-lead { color: var(--muted); }
+
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    margin-top: 3rem;
+    background: rgba(201,149,58,0.15);
+  }
+
+  .tech-card {
+    background: #1e1208;
+    padding: 2.5rem 2rem;
+    position: relative;
+    cursor: default;
+    transition: background 0.3s;
+  }
+
+  .tech-card:hover { background: #251908; }
+
+  .tech-card::before {
+    content: attr(data-num);
+    position: absolute;
+    top: 1.5rem; right: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: rgba(201,149,58,0.1);
+    line-height: 1;
+  }
+
+  .tech-icon {
+    font-size: 1.8rem;
+    margin-bottom: 1.2rem;
+    display: block;
+  }
+
+  .tech-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    margin-bottom: 0.8rem;
+  }
+
+  .tech-desc {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+
+  .tech-tag {
+    display: inline-block;
+    margin-top: 1.2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--gold);
+    border: 1px solid rgba(201,149,58,0.3);
+    padding: 0.2rem 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ─── METHODS ─── */
+  #methods {
+    background: var(--parchment);
+  }
+
+  .methods-layout {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 5vw;
+    align-items: start;
+    margin-top: 3rem;
+  }
+
+  .method-nav {
+    position: sticky;
+    top: 80px;
+  }
+
+  .method-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    border-left: 2px solid rgba(201,149,58,0.2);
+    padding: 0.9rem 1.5rem;
+    font-family: 'Spectral', serif;
+    font-size: 0.95rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 2px;
+  }
+
+  .method-btn.active, .method-btn:hover {
+    border-left-color: var(--gold);
+    color: var(--deep);
+    background: rgba(201,149,58,0.08);
+  }
+
+  .method-panels > div {
+    display: none;
+  }
+  .method-panels > div.active {
+    display: block;
+    animation: fadeIn 0.4s ease;
+  }
+
+  .method-panel-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--deep);
+    margin-bottom: 1rem;
+  }
+
+  .method-panel-body {
+    font-size: 0.97rem;
+    color: var(--mid);
+    line-height: 1.9;
+  }
+
+  .method-steps {
+    margin-top: 2rem;
+    counter-reset: step;
+  }
+
+  .method-step {
+    display: flex;
+    gap: 1.2rem;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid var(--border);
+    counter-increment: step;
+  }
+
+  .method-step::before {
+    content: counter(step, decimal-leading-zero);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--gold);
+    min-width: 2rem;
+    padding-top: 0.15rem;
+  }
+
+  .method-step-text strong {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--deep);
+    margin-bottom: 0.3rem;
+  }
+
+  .method-step-text span {
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  /* ─── TIMELINE ─── */
+  #timeline {
+    background: var(--cream);
+  }
+
+  .timeline {
+    position: relative;
+    margin-top: 3rem;
+    padding-left: 2rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+
+  .tl-item {
+    position: relative;
+    padding: 0 0 3rem 3rem;
+  }
+
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -4px; top: 8px;
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+
+  .tl-year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .tl-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--deep);
+    margin-bottom: 0.6rem;
+  }
+
+  .tl-body {
+    font-size: 0.92rem;
+    color: var(--mid);
+    line-height: 1.8;
+    max-width: 640px;
+  }
+
+  /* ─── TOOLS ─── */
+  #tools {
+    background: var(--deep);
+    color: var(--parchment);
+  }
+
+  #tools .section-title { color: var(--parchment); }
+  #tools .section-lead { color: var(--muted); }
+
+  .tools-list {
+    margin-top: 3rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .tool-row {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1.2rem 1.5rem;
+    border: 1px solid rgba(201,149,58,0.15);
+    background: rgba(201,149,58,0.03);
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .tool-row:hover {
+    border-color: rgba(201,149,58,0.4);
+    background: rgba(201,149,58,0.07);
+  }
+
+  .tool-row-icon {
+    font-size: 1.4rem;
+    min-width: 2rem;
+    text-align: center;
+  }
+
+  .tool-row-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    margin-bottom: 0.2rem;
+  }
+
+  .tool-row-desc {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ─── PRINCIPLES ─── */
+  #principles {
+    background: var(--parchment);
+  }
+
+  .principles-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .principle-card {
+    padding: 2rem;
+    border: 1px solid var(--border);
+    background: var(--cream);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .principle-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(26,18,8,0.12);
+  }
+
+  .principle-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--rust));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .principle-card:hover::after { transform: scaleX(1); }
+
+  .principle-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: rgba(201,149,58,0.15);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .principle-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--deep);
+    margin-bottom: 0.8rem;
+  }
+
+  .principle-body {
+    font-size: 0.9rem;
+    color: var(--mid);
+    line-height: 1.8;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--ink);
+    border-top: 1px solid rgba(201,149,58,0.2);
+    padding: 3rem 6vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--gold-light);
+    font-weight: 700;
+  }
+
+  .footer-note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  .footer-authors {
+    width: 100%;
+    border-top: 1px solid rgba(201,149,58,0.15);
+    padding-top: 1.5rem;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-authors-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--gold);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .footer-authors-names {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-author {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.88rem;
+    color: var(--parchment);
+    font-style: italic;
+    position: relative;
+    padding-left: 0.9rem;
+  }
+
+  .footer-author::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    #intro { grid-template-columns: 1fr; }
+    .tech-grid { grid-template-columns: 1fr 1fr; }
+    .methods-layout { grid-template-columns: 1fr; }
+    .method-nav { position: static; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .method-btn { border: 1px solid var(--border); border-left-width: 3px; width: auto; }
+    .principles-grid { grid-template-columns: 1fr; }
+    .tools-list { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .tech-grid { grid-template-columns: 1fr; }
+    .stat-row { flex-direction: column; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">ОбрТех · История</div>
+  <ul class="nav-links">
+    <li><a href="#intro">О теме</a></li>
+    <li><a href="#technologies">Технологии</a></li>
+    <li><a href="#methods">Методы</a></li>
+    <li><a href="#tools">Инструменты</a></li>
+    <li><a href="#principles">Принципы</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-eyebrow">Педагогика · XXI век</div>
+  <h1 class="hero-title">Современные образовательные технологии в преподавании <em>всемирной истории</em></h1>
+  <p class="hero-sub">Методологический обзор инновационных подходов к школьному историческому образованию: от критического мышления до цифровой дидактики</p>
+  <div class="hero-divider"></div>
+  <div class="hero-scroll">
+    <span>Прокрутить</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- INTRO -->
+<section id="intro">
+  <div>
+    <div class="section-label">Актуальность</div>
+    <h2 class="section-title">Зачем нужны <em>новые технологии</em> в обучении истории?</h2>
+    <hr class="ornament">
+    <p class="section-lead">
+      Традиционная парадигма «урок-рассказ-пересказ» всё менее соответствует задачам формирования исторического сознания современных школьников. Новые образовательные технологии позволяют перейти от трансляции знаний к развитию компетенций: критического анализа источников, понимания причинно-следственных связей, эмпатии к историческим акторам.
+    </p>
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-num">73%</div>
+        <div class="stat-desc">учителей отмечают рост мотивации при использовании интерактивных методов</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">2×</div>
+        <div class="stat-desc">выше усвоение материала при проблемно-деятельностном подходе</div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="intro-quote">
+      «История — это не каталог событий прошлого, а способ мышления. Задача учителя — не передать факты, а научить исторически думать.»
+      <cite>— Р. Дж. Коллингвуд, «Идея истории»</cite>
+    </div>
+    <div class="intro-quote" style="margin-top:1.5rem">
+      «Проблемное обучение — это тип развивающего обучения, в котором сочетаются систематическая самостоятельная поисковая деятельность учащихся с усвоением ими готовых выводов науки.»
+      <cite>— М.И. Махмутов</cite>
+    </div>
+  </div>
+</section>
+
+<!-- TECHNOLOGIES -->
+<section id="technologies">
+  <div class="section-label">Классификация</div>
+  <h2 class="section-title">Основные образовательные технологии</h2>
+  <p class="section-lead">Современная дидактика истории опирается на взаимодополняющий арсенал педагогических технологий, каждая из которых решает специфические задачи исторического образования.</p>
+
+  <div class="tech-grid">
+    <div class="tech-card reveal" data-num="01">
+      <span class="tech-icon">🔍</span>
+      <div class="tech-name">Проблемное обучение</div>
+      <div class="tech-desc">Организация познавательной деятельности через постановку и разрешение исторических проблем. Формирует навыки самостоятельного исторического суждения, работы с противоречивыми источниками и аргументированного письма.</div>
+      <span class="tech-tag">Махмутов · Лернер</span>
+    </div>
+    <div class="tech-card reveal" data-num="02">
+      <span class="tech-icon">🧠</span>
+      <div class="tech-name">Технология РКМ</div>
+      <div class="tech-desc">Развитие критического мышления через чтение и письмо (РКМЧП). Трёхфазная структура «Вызов – Осмысление – Рефлексия» формирует аналитическое отношение к историческим текстам и источникам.</div>
+      <span class="tech-tag">Стил · Мередит · Темпл</span>
+    </div>
+    <div class="tech-card reveal" data-num="03">
+      <span class="tech-icon">🤝</span>
+      <div class="tech-name">Технология сотрудничества</div>
+      <div class="tech-desc">Педагогика сотрудничества строится на субъект-субъектных отношениях учителя и ученика. Совместная познавательная деятельность, взаимоуважение и соавторство в учебном процессе формируют у школьников личностную причастность к изучению истории.</div>
+      <span class="tech-tag">Шаталов · Амонашвили · Лысенкова</span>
+    </div>
+    <div class="tech-card reveal" data-num="04">
+      <span class="tech-icon">🎮</span>
+      <div class="tech-name">Игровые технологии</div>
+      <div class="tech-desc">Исторические ролевые игры, симуляции, реконструкции событий. Позволяют «войти» в историческую ситуацию, понять логику действий участников и осмыслить альтернативные варианты исторического развития.</div>
+      <span class="tech-tag">Деловая игра · Ролевая игра</span>
+    </div>
+    <div class="tech-card reveal" data-num="05">
+      <span class="tech-icon">💻</span>
+      <div class="tech-name">Цифровые технологии</div>
+      <div class="tech-desc">Использование ИКТ, интерактивных карт, баз данных исторических источников, мультимедийных презентаций и образовательных платформ для создания насыщенной информационной среды.</div>
+      <span class="tech-tag">ИКТ · EdTech</span>
+    </div>
+    <div class="tech-card reveal" data-num="06">
+      <span class="tech-icon">🗂️</span>
+      <div class="tech-name">Проектная технология</div>
+      <div class="tech-desc">Самостоятельное исследование учащимися исторических проблем с конкретным продуктом (реферат, презентация, экспозиция, документальный видеоролик). Формирует исследовательские компетенции.</div>
+      <span class="tech-tag">Метод проектов</span>
+    </div>
+    <div class="tech-card reveal" data-num="07">
+      <span class="tech-icon">📜</span>
+      <div class="tech-name">Работа с источниками</div>
+      <div class="tech-desc">Систематическое включение первичных исторических источников в учебный процесс. Документальный анализ, визуальные источники, нарративные тексты формируют «историческое ремесло» у школьников.</div>
+      <span class="tech-tag">Source-based Learning</span>
+    </div>
+    <div class="tech-card reveal" data-num="08">
+      <span class="tech-icon">🌐</span>
+      <div class="tech-name">STEM-интеграция в истории</div>
+      <div class="tech-desc">Применение методов анализа данных, картографирования (ГИС), статистики и моделирования в изучении исторических процессов. Формирует межпредметные компетенции на историческом материале.</div>
+      <span class="tech-tag">Межпредметность</span>
+    </div>
+    <div class="tech-card reveal" data-num="09">
+      <span class="tech-icon">🔄</span>
+      <div class="tech-name">Перевёрнутый класс</div>
+      <div class="tech-desc">Перенос лекционного материала во внеурочное время (видеоуроки), а урочное время посвящается активной работе с источниками, дискуссиям и решению исторических проблем.</div>
+      <span class="tech-tag">Flipped Classroom</span>
+    </div>
+  </div>
+</section>
+
+<!-- METHODS -->
+<section id="methods">
+  <div class="section-label">Методический арсенал</div>
+  <h2 class="section-title">Ключевые методы <em>и приёмы</em></h2>
+  <hr class="ornament">
+  <p class="section-lead">Выберите метод для подробного описания его дидактической структуры и применения в контексте всемирной истории.</p>
+
+  <div class="methods-layout">
+    <div class="method-nav">
+      <button class="method-btn active" onclick="showMethod('pkm')">Приём «Кластер»</button>
+      <button class="method-btn" onclick="showMethod('synquin')">Синквейн</button>
+      <button class="method-btn" onclick="showMethod('debate')">Дебаты и дискуссия</button>
+      <button class="method-btn" onclick="showMethod('fishbone')">«Рыбный скелет»</button>
+      <button class="method-btn" onclick="showMethod('thinktank')">«Думаем вместе»</button>
+      <button class="method-btn" onclick="showMethod('case')">Кейс-метод</button>
+      <button class="method-btn" onclick="showMethod('zigzag')">«Зигзаг»</button>
+    </div>
+
+    <div class="method-panels">
+      <div id="m-pkm" class="active">
+        <div class="method-panel-title">Кластер (Смысловой граф)</div>
+        <div class="method-panel-body">Кластер — приём графической систематизации материала, позволяющий наглядно представить ключевые понятия темы и связи между ними. Особенно эффективен при изучении многогранных исторических явлений — революций, войн, цивилизаций.</div>
+        <div class="method-steps">
+          <div class="method-step"><div class="method-step-text"><strong>Вызов</strong><span>Учитель формулирует центральное понятие (например: «Французская революция»). Учащиеся в течение 3 минут записывают все ассоциации.</span></div></div>
+          <div class="method-step"><div class="method-step-text"><strong>Создание кластера</strong><span>Связи группируются по тематическим блокам: причины, события, деятели, последствия, символы. Формируется визуальная карта понятий.</span></div></div>
+          <div class="method-step"><div class="method-step-text"><strong>Осмысление</strong><span>На основе кластера строится изучение темы. По ходу урока кластер дополняется новыми связями и корректируется.</span></div></div>
+          <div class="method-step"><div class="method-step-text"><strong>Рефлексия</strong><span>Сравнение исходного и итогового кластеров фиксирует прирост знаний и формирование системного понимания.</span></div></div>
+        </div>
+      </div>
+
+      <div id="m-synquin">
+        <div class="method-panel-title">Синквейн</div>
+        <div class="method-panel-body">Синквейн — пятистрочное нерифмованное стихотворение, инструмент рефлексии и концентрированного выражения исторического знания. Требует глубокого понимания темы, умения выделять существенное и синтезировать.</div>
+        <div class="method-steps">
+          <div class="method-step"><div class="method-step-text"><strong>Строка 1 — тема</strong><span>Одно существительное — историческое понятие или имя (Крестовые походы, Наполеон, Реформация).</span></div></div>
+          <div class="method-step"><div class="method-step-text"><strong>Строка 2 — описание</strong><span>Два прилагательных, характеризующих явление или личность с исторической точки зрения.</span></div></div>
+          <div class="method-step"><div class="method-step-text"><strong>Строка 3 — действие</strong><span>Три глагола — ключевые действия или процессы, связанные с темой.</span></div></div>
+          <div class="method-step"><div class="method-step-text"><strong>Строка 4 — суждение</strong><span>Фраза из четырёх слов — личная оценка или ключевая историческая характеристика.</span></div></div>
+          <div class="method-step"><div class="method-step-text"><strong>Строка 5 — резюме</strong><span>Одно слово-итог, выражающее суть изученного явления или эпохи.</span></div></div>
+        </div>
+      </div>
+
+      <div id="m-debate">
+        <div class="method-panel-title">Учебные дебаты и историческая дискуссия</div>
+        <div class="method-panel-body">Дискуссия — важнейший инструмент формирования исторического суждения. Позволяет столкнуть различные интерпретации событий, научить аргументировать позицию на основе исторических данных и уважать альтернативные точки зрения.</div>
+        <div class="method-steps">
+          <div class="method-step"><div class="method-step-text"><strong>Выбор дискуссионного вопроса</strong><span>Вопрос должен допускать несколько обоснованных ответов: «Была ли неизбежна Первая мировая война?», «Кто несёт большую ответственность за распад колониальной системы?»</span></div></div>
+          <div class="method-step"><div class="method-step-text"><strong>Подготовка и работа с источниками</strong><span>Учащиеся изучают первичные источники, историографические позиции, готовят аргументы и контраргументы.</span></div></div>
+          <div class="method-step"><div class="method-step-text"><strong>Проведение дискуссии</strong><span>Форматы: «Аквариум», «Совет историков», Сократовская беседа, дебаты Oxford-style. Учитель — модератор, не арбитр.</span></div></div>
+          <div class="method-step"><div class="method-step-text"><strong>Рефлексия и выводы</strong><span>Обсуждение не только исторических выводов, но и качества аргументации, использования источников.</span></div></div>
+        </div>
+      </div>
+
+      <div id="m-fishbone">
+        <div class="method-panel-title">«Рыбный скелет» (Ishikawa Diagram)</div>
+        <div class="method-panel-body">Диаграмма Исикавы, адаптированная для истории, — мощный инструмент анализа причинно-следственных связей. Позволяет структурировать многофакторный анализ исторических событий и преодолеть монокаузальное мышление.</div>
+        <div class="method-steps">
+          <div class="method-step"><div class="method-step-text"><strong>«Голова рыбы» — следствие</strong><span>Формулировка исторического события или явления как результата: «Падение Западной Римской империи», «Начало Второй мировой войны».</span></div></div>
+          <div class="method-step"><div class="method-step-text"><strong>«Большие кости» — группы причин</strong><span>Экономические, политические, социальные, идеологические, военные факторы — по одной «кости» на каждую категорию.</span></div></div>
+          <div class="method-step"><div class="method-step-text"><strong>«Малые кости» — конкретные факторы</strong><span>Детализация каждой категории: конкретные события, решения, процессы, ставшие причинами.</span></div></div>
+          <div class="method-step"><div class="method-step-text"><strong>Анализ и синтез</strong><span>Выявление ключевых причин, обсуждение их относительного веса, формулирование исторического обобщения.</span></div></div>
+        </div>
+      </div>
+
+      <div id="m-thinktank">
+        <div class="method-panel-title">«Думаем вместе» (Think-Pair-Share)</div>
+        <div class="method-panel-body">Трёхэтапная стратегия организации мышления: индивидуальное обдумывание → парное обсуждение → представление классу. Обеспечивает включённость каждого ученика в мыслительный процесс.</div>
+        <div class="method-steps">
+          <div class="method-step"><div class="method-step-text"><strong>Think (Думаю)</strong><span>Учитель задаёт исторический вопрос. Учащиеся 2–3 минуты думают самостоятельно, фиксируют мысли письменно.</span></div></div>
+          <div class="method-step"><div class="method-step-text"><strong>Pair (Обсуждаю)</strong><span>Обмен идеями в парах. Формирование общей позиции или выявление разногласий с обоснованием.</span></div></div>
+          <div class="method-step"><div class="method-step-text"><strong>Share (Представляю)</strong><span>Пары делятся результатами с классом. Учитель систематизирует ответы, направляет к более глубокому анализу.</span></div></div>
+        </div>
+      </div>
+
+      <div id="m-case">
+        <div class="method-panel-title">Кейс-метод в истории</div>
+        <div class="method-panel-body">Анализ конкретной исторической ситуации с позиции принятия решений. Учащиеся «входят» в роль исторических деятелей, анализируют имеющуюся информацию и обосновывают свой выбор, не зная заранее реального исхода.</div>
+        <div class="method-steps">
+          <div class="method-step"><div class="method-step-text"><strong>Введение в ситуацию</strong><span>Представление кейса: контекст, действующие лица, имеющиеся ресурсы и ограничения. Ключевой вопрос: «Что делать?»</span></div></div>
+          <div class="method-step"><div class="method-step-text"><strong>Анализ источников</strong><span>Работа с подборкой первичных источников, отражающих различные точки зрения на ситуацию.</span></div></div>
+          <div class="method-step"><div class="method-step-text"><strong>Принятие решения</strong><span>Группы формулируют и обосновывают своё решение с опорой на источники и историческую логику.</span></div></div>
+          <div class="method-step"><div class="method-step-text"><strong>Деброфинг</strong><span>Сравнение принятых решений с реальным историческим выбором. Обсуждение факторов, определивших исход.</span></div></div>
+        </div>
+      </div>
+
+      <div id="m-zigzag">
+        <div class="method-panel-title">«Зигзаг» (Jigsaw)</div>
+        <div class="method-panel-body">Кооперативная стратегия, при которой каждый учащийся становится «экспертом» по одному аспекту темы и обучает остальных. Применяется при изучении многоаспектных тем: периодов, цивилизаций, международных конфликтов.</div>
+        <div class="method-steps">
+          <div class="method-step"><div class="method-step-text"><strong>Формирование базовых групп</strong><span>Класс делится на группы. Каждый участник получает свой фрагмент темы (аспект, период, регион).</span></div></div>
+          <div class="method-step"><div class="method-step-text"><strong>Экспертные группы</strong><span>Все, кто получил одинаковый фрагмент, объединяются и глубоко изучают свою часть, становясь экспертами.</span></div></div>
+          <div class="method-step"><div class="method-step-text"><strong>Возврат и обучение</strong><span>Эксперты возвращаются в базовые группы и обучают товарищей своей части материала.</span></div></div>
+          <div class="method-step"><div class="method-step-text"><strong>Синтез и контроль</strong><span>Общая дискуссия или проверочное задание, требующее интеграции всех аспектов темы.</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="timeline">
+  <div class="section-label">История развития</div>
+  <h2 class="section-title">Эволюция исторической <em>дидактики</em></h2>
+  <hr class="ornament">
+
+  <div class="timeline">
+    <div class="tl-item reveal">
+      <div class="tl-year">1960-е годы</div>
+      <div class="tl-title">Проблемное обучение — М.И. Махмутов</div>
+      <div class="tl-body">Советская дидактика разрабатывает теорию проблемного обучения. Махмутов, Лернер, Матюшкин обосновывают принцип создания проблемных ситуаций как движущей силы познавательной деятельности. Применение в истории: проблемные вопросы, контрфактические задачи, оценочные суждения.</div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-year">1980-е годы</div>
+      <div class="tl-title">Технология сотрудничества в советской педагогике</div>
+      <div class="tl-body">Шаталов, Амонашвили, Лысенкова создают педагогику сотрудничества — субъект-субъектную модель обучения, основанную на взаимном уважении и совместном поиске знания. Появляются первые исторические симуляции и ролевые игры как систематический метод.</div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-year">1990-е годы</div>
+      <div class="tl-title">Технология РКМ и конструктивизм</div>
+      <div class="tl-body">Стил, Мередит и Темпл разрабатывают технологию развития критического мышления через чтение и письмо. Конструктивистская педагогика (Выготский, Брунер) занимает центральное место в теории обучения истории. Первые компьютеры в школах — появление ИКТ в образовании.</div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-year">2000-е годы</div>
+      <div class="tl-title">Цифровые технологии и компетентностный подход</div>
+      <div class="tl-body">Массовое внедрение ИКТ в преподавание истории. Интерактивные доски, электронные учебники, образовательные порталы. Переход к компетентностной модели образования в большинстве стран. В Казахстане — реформы образовательных стандартов.</div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-year">2010-е годы</div>
+      <div class="tl-title">Перевёрнутый класс, геймификация, STEM</div>
+      <div class="tl-body">Технология перевёрнутого класса меняет роль урока: видеолекции на YouTube, а классное время — для активной работы. Геймификация и исторические симуляции — цифровые форматы. Запуск ГОСТ 2022 в Казахстане: обновлённые цели обучения истории.</div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-year">2020-е годы</div>
+      <div class="tl-title">ИИ-ассистенты, гибридное обучение, глобальная история</div>
+      <div class="tl-body">Пандемия COVID-19 форсирует цифровизацию и дистанционное обучение. Инструменты ИИ входят в образовательную практику. Акцент на деколониальных подходах, глобальной истории и множественных нарративах. Новые требования к источниковой грамотности в эпоху дезинформации.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools">
+  <div class="section-label">Инструментарий</div>
+  <h2 class="section-title">Цифровые инструменты <em>учителя истории</em></h2>
+  <p class="section-lead">Актуальный набор цифровых ресурсов и платформ для организации современного урока всемирной истории.</p>
+
+  <div class="tools-list">
+    <div class="tool-row reveal">
+      <div class="tool-row-icon">🗺️</div>
+      <div>
+        <div class="tool-row-name">David Rumsey Map Collection</div>
+        <div class="tool-row-desc">Крупнейший архив исторических карт для работы на уроках. Интерактивный просмотр, наложение слоёв, сравнение эпох.</div>
+      </div>
+    </div>
+    <div class="tool-row reveal">
+      <div class="tool-row-icon">📽️</div>
+      <div>
+        <div class="tool-row-name">Mentimeter / Kahoot!</div>
+        <div class="tool-row-desc">Платформы интерактивного опроса и викторин. Мгновенная обратная связь, формативная оценка на уроке истории.</div>
+      </div>
+    </div>
+    <div class="tool-row reveal">
+      <div class="tool-row-icon">🌍</div>
+      <div>
+        <div class="tool-row-name">World History Encyclopedia</div>
+        <div class="tool-row-desc">Многоязычная энциклопедия с открытым доступом. Статьи, временные линии, карты, изображения исторических артефактов.</div>
+      </div>
+    </div>
+    <div class="tool-row reveal">
+      <div class="tool-row-icon">📊</div>
+      <div>
+        <div class="tool-row-name">Canva / Padlet</div>
+        <div class="tool-row-desc">Инструменты создания визуальных материалов: инфографики, плакатов, коллажей, интерактивных досок с историческим содержанием.</div>
+      </div>
+    </div>
+    <div class="tool-row reveal">
+      <div class="tool-row-icon">📖</div>
+      <div>
+        <div class="tool-row-name">Google Arts & Culture</div>
+        <div class="tool-row-desc">Виртуальные экскурсии по музеям, 3D-просмотр артефактов, панорамы исторических мест мира для иммерсивного обучения.</div>
+      </div>
+    </div>
+    <div class="tool-row reveal">
+      <div class="tool-row-icon">⏳</div>
+      <div>
+        <div class="tool-row-name">Timeline JS / Sutori</div>
+        <div class="tool-row-desc">Платформы создания интерактивных хронологий. Учащиеся самостоятельно конструируют временные линии с мультимедийным наполнением.</div>
+      </div>
+    </div>
+    <div class="tool-row reveal">
+      <div class="tool-row-icon">🧩</div>
+      <div>
+        <div class="tool-row-name">Nearpod / Edpuzzle</div>
+        <div class="tool-row-desc">Интерактивные уроки и видеоматериалы с встроенными заданиями. Позволяют превратить документальный фильм в активный формат работы.</div>
+      </div>
+    </div>
+    <div class="tool-row reveal">
+      <div class="tool-row-icon">🏛️</div>
+      <div>
+        <div class="tool-row-name">Europeana / Национальные архивы</div>
+        <div class="tool-row-desc">Открытые базы первичных исторических источников: документов, фотографий, плакатов, рукописей для работы в классе.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRINCIPLES -->
+<section id="principles">
+  <div class="section-label">Методологические основания</div>
+  <h2 class="section-title">Принципы <em>современной дидактики</em> истории</h2>
+  <hr class="ornament">
+
+  <div class="principles-grid">
+    <div class="principle-card reveal">
+      <div class="principle-num">I</div>
+      <div class="principle-title">Историческое мышление важнее фактологии</div>
+      <div class="principle-body">Цель исторического образования — не передача набора дат и событий, а формирование исторического способа мышления: понимания изменений во времени, контекстуализации, работы с свидетельствами, построения аргументированных интерпретаций.</div>
+    </div>
+    <div class="principle-card reveal">
+      <div class="principle-num">II</div>
+      <div class="principle-title">Множественность перспектив</div>
+      <div class="principle-body">История — это всегда интерпретация. Современная дидактика обучает школьников видеть события с позиций различных участников: победителей и побеждённых, правителей и подданных, центра и периферии, различных культур и цивилизаций.</div>
+    </div>
+    <div class="principle-card reveal">
+      <div class="principle-num">III</div>
+      <div class="principle-title">Работа с источниками как основа</div>
+      <div class="principle-body">Первичные исторические источники должны присутствовать на каждом уроке. Их анализ — атрибуция, контекстуализация, выявление намерений, сопоставление — формирует настоящие исследовательские навыки.</div>
+    </div>
+    <div class="principle-card reveal">
+      <div class="principle-num">IV</div>
+      <div class="principle-title">Аргументированное письмо и речь</div>
+      <div class="principle-body">Историческое мышление реализуется через письмо и устную речь. Регулярная практика исторических эссе, дискуссий, презентаций необходима для развития коммуникативных и аналитических компетенций.</div>
+    </div>
+    <div class="principle-card reveal">
+      <div class="principle-num">V</div>
+      <div class="principle-title">Связь прошлого с настоящим</div>
+      <div class="principle-body">История изучается не ради самой истории, а для понимания современного мира. Технология «Мост прошлое–настоящее» помогает учащимся осмыслить актуальность исторического знания и применить его к современным проблемам.</div>
+    </div>
+    <div class="principle-card reveal">
+      <div class="principle-num">VI</div>
+      <div class="principle-title">Деятельностный подход</div>
+      <div class="principle-body">Знание приобретается через деятельность, а не через пассивное слушание. Исследование, дискуссия, создание продуктов, ролевые практики — основные форматы современного урока истории в соответствии с ГОСТ 2022.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">ОбрТех · Всемирная история в школе</div>
+  <div class="footer-note">Педагогика · Дидактика истории · XXI век</div>
+  <div class="footer-authors">
+    <span class="footer-authors-label">Авторы</span>
+    <div class="footer-authors-names">
+      <span class="footer-author">Максим</span>
+      <span class="footer-author">Артём</span>
+      <span class="footer-author">Анжелика</span>
+      <span class="footer-author">Ксения</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Method switcher
+  function showMethod(id) {
+    document.querySelectorAll('.method-panels > div').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.method-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById('m-' + id).classList.add('active');
+    event.currentTarget.classList.add('active');
+  }
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
